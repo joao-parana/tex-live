@@ -5,9 +5,11 @@ MAINTAINER João Antonio Ferreira "joao.parana@gmail.com"
 ENV REFRESHED_AT 2016-08-26
 
 # instalando o software
-RUN apt-get update \
-    && apt-get install -y curl wget xzdec sudo unzip python vim nano \
-    && apt-get install -y --no-install-recommends texlive
+RUN apt-get update && \
+    apt-get install -y curl wget xzdec sudo unzip python vim nano
+
+# Instalação Minimalista
+RUN apt-get install -y --no-install-recommends texlive
 
 RUN ls -la /usr/bin | grep texlive
 
