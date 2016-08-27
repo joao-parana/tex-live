@@ -1,1 +1,7 @@
 work/logs/*.log
+work/tmp/
+*.aux
+*.log
+*.pdf
+*.synctex.gz
+
