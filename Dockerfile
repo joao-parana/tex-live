@@ -54,10 +54,11 @@ WORKDIR /desenv
 ADD artigo-1.tex /desenv
 RUN echo "Diretório corrente : `pwd`" && \
     ls -lat && \
-    texliveonfly artigo-1.tex
+    texliveonfly artigo-1.tex 2> /dev/null ; /bin/true
 
 USER root
 
 VOLUME /tex/data
 
 CMD [ "/bin/bash" ]
+
