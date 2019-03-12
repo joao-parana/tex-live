@@ -64,6 +64,7 @@ Para limpar os temporários use:
 rm -rf main.aux main.bcf main.loa main.lof main.log main.lol main.lot main.out main.run.xml main.synctex.gz main.toc main.bbl main.blg
 ```
 
+Por ultimo abra o PDF no seu visualizador.
 
 ```bash
 open main.pdf
