@@ -16,7 +16,36 @@ Apresentação de LaTeX
 
 ## Instalando LaTeX
 
-### Debian sob Docker
+### Ubuntu sob Docker
+
+
+```bash
+
+```
+
+```bash
+
+```
+
+```bash
+
+```
+
+```bash
+texliveonfly main.tex  | grep "Error:" && biber main && texliveonfly main.tex  
+texliveonfly main.tex  && biber main && texliveonfly main.tex  
+```
+
+```bash
+rm -rf main.aux main.bcf main.loa main.lof main.log main.lol main.lot main.out main.run.xml main.synctex.gz main.toc main.bbl main.blg
+```
+
+
+```bash
+open main.pdf
+```
+
+### Detalhes da instalação
 
 Instalando o TeXlive
 
