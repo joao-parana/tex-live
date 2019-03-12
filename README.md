@@ -18,23 +18,47 @@ Apresentação de LaTeX
 
 ### Ubuntu sob Docker
 
+O comando abaixo mostra se deu erro pela falta de algum pacote
 
 ```bash
-
+texliveonfly main.tex  | grep "Error:" 
 ```
+
+Como por exemplo, este abaixo:
 
 ```bash
-
+! LaTeX Error: File `biblatex.sty' not found.
 ```
+
+Neste caso, execute 
 
 ```bash
-
+apt-file search /biblatex.sty 
 ```
+
+O sistema responde com:
 
 ```bash
-texliveonfly main.tex  | grep "Error:" && biber main && texliveonfly main.tex  
-texliveonfly main.tex  && biber main && texliveonfly main.tex  
+texlive-bibtex-extra: /usr/share/texlive/texmf-dist/tex/latex/biblatex/biblatex.sty
 ```
+
+Ou seja, o arquivo `biblatex.sty` encontra-se no pacote `texlive-bibtex-extra`.
+
+Então você pode instalar este pacote:
+
+```bash
+apt-get install -y texlive-bibtex-extra
+```
+
+Para gerar o PDF use:
+
+```bash
+pdflatex main.tex && biber main && pdflatex main.tex && pdflatex main.tex
+```
+
+Observe que é necessário intercalar a chamada ao `biber` entre as chamadas do `pdflatex`.
+
+Para limpar os temporários use:
 
 ```bash
 rm -rf main.aux main.bcf main.loa main.lof main.log main.lol main.lot main.out main.run.xml main.synctex.gz main.toc main.bbl main.blg

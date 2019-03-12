@@ -2,6 +2,15 @@ work/logs/*.log
 work/tmp/
 *.aux
 *.log
-*.pdf
 *.synctex.gz
+*.bbl
+*.bcf
+*.blg
+*.loa
+*.lof
+*.lol
+*.lot
+*.out
+*.run.xml
+*.toc
 
