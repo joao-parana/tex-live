@@ -42,13 +42,13 @@ RUN mkdir /desenv && chmod 777 /desenv
 
 USER $USER_NAME
 
-RUN echo "Rodando como usuário : `whoami`" && \
-    mkdir -p /home/$USER_NAME/texmf && \
-    cd /home/$USER_NAME && \
-    echo "Diretório corrente : `pwd`" && \
-    tlmgr init-usertree && \
-    tlmgr install helvetic && \
-    tlmgr install courier
+# RUN echo "Rodando como usuário : `whoami`" && \
+#     mkdir -p /home/$USER_NAME/texmf && \
+#     cd /home/$USER_NAME && \
+#     echo "Diretório corrente : `pwd`" && \
+#     tlmgr init-usertree && \
+#     tlmgr install helvetic && \
+#     tlmgr install courier
 
 WORKDIR /desenv
 ADD artigo-1.tex /desenv
