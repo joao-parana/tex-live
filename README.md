@@ -33,7 +33,7 @@ Como por exemplo, este abaixo:
 Neste caso, execute 
 
 ```bash
-apt-file search /biblatex.sty 
+apt update && apt-file search /biblatex.sty 
 ```
 
 O sistema responde com:

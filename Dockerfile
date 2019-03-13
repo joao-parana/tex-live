@@ -73,6 +73,15 @@ RUN echo "Diretório corrente : `pwd`" && \
 
 RUN apt-get -y install biber --fix-missing
 
+RUN apt-get install -y apt-file \
+    texlive-fonts-extra \
+    texlive-lang-portuguese \
+    texlive-publishers
+
+RUN wget -q http://tug.org/fonts/getnonfreefonts/install-getnonfreefonts && \
+    texlua ./install-getnonfreefonts && \
+    getnonfreefonts --sys -a
+
 USER root
 
 VOLUME /tex/data
