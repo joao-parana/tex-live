@@ -1,22 +1,53 @@
-# latex-journey
+# tex-live
 
 > Aprendendo LaTeX
 
-## Links
+## Instruções de uso
 
-Primeiros passos no LaTeX: [http://posgraduando.com/introducao-ao-latex-os-primeiros-passos/](http://posgraduando.com/introducao-ao-latex-os-primeiros-passos/)
+Instale e inicie o Docker Desktop na sua maquina. Crie uma conta no HUB do Docker.
 
-Video aulas sobre LaTeX: [https://www.youtube.com/watch?v=4pTf8vB9Ezg](https://www.youtube.com/watch?v=4pTf8vB9Ezg)
+Crie a imagem
 
-Editor LaTeX on line: [https://pt.sharelatex.com/](https://pt.sharelatex.com/)
+```
+./build-tex-live.sh
+```
 
-Apresentação de LaTeX
+ou baixe do Docker HUB
 
-[Click para carregar a Apresentação de LaTeX em PDF](docs/latex-curso.pdf)
+```
+docker login SEU_USUÁRIO # informe SUA_SENHA
+docker pull parana/tex-live
+```
 
-## Instalando LaTeX
+Agora você pode ir para o diretório onde se encontra o seu projeto LaTeX e executar:
 
-### Ubuntu sob Docker
+```bash
+docker run -ti --rm -v $PWD/dippg_latex_template:/tex/data parana/tex-live bash
+```
+
+## Instalando LaTeX no Ubuntu 18.04 - algumas dicas.
+
+```bash
+apt-get update && \
+    apt-get install -y curl wget xzdec sudo unzip vim nano apt-file
+
+# Instalação Minimalista
+apt-get install -y --no-install-recommends texlive
+
+# ARG DEBIAN_FRONTEND=noninteractive
+# Instalação recomendada
+echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections && \
+    apt-get -y install texlive-latex-extra \
+    texlive-extra-utils \
+    texlive-science \
+    texlive-bibtex-extra \
+    texlive-fonts-extra \
+    texlive-lang-portuguese \
+    texlive-publishers
+
+# Para usar o biber com back-end do Biblatex
+apt-get -y install biber --fix-missing
+```
 
 O comando abaixo mostra se deu erro pela falta de algum pacote
 
@@ -53,10 +84,17 @@ apt-get install -y texlive-bibtex-extra
 Para gerar o PDF use:
 
 ```bash
+pdflatex main.tex && bibtex main && pdflatex main.tex && pdflatex main.tex
+```
+
+
+Para gerar o PDF tendo o `biber` como back-end use:
+
+```bash
 pdflatex main.tex && biber main && pdflatex main.tex && pdflatex main.tex
 ```
 
-Observe que é necessário intercalar a chamada ao `biber` entre as chamadas do `pdflatex`.
+Observe que é necessário intercalar a chamada ao `bibtex/biber` entre as chamadas do `pdflatex`.
 
 Para limpar os temporários use:
 
@@ -69,65 +107,6 @@ Por ultimo abra o PDF no seu visualizador.
 ```bash
 open main.pdf
 ```
-
-### Detalhes da instalação
-
-Instalando o TeXlive
-
-```bash
-RUN apt-get update && apt-get install -y --no-install-recommends texlive && \
-    ls -la /usr/bin | grep texlive
-```
-
-O TeX Live instala os seguintes executáveis:
-```
-allcm -> /usr/share/texlive/texmf-dist/scripts/texlive/allcm.sh
-allneeded -> /usr/share/texlive/texmf-dist/scripts/texlive/allneeded.sh
-dvi2fax -> /usr/share/texlive/texmf-dist/scripts/texlive/dvi2fax.sh
-dvired -> /usr/share/texlive/texmf-dist/scripts/texlive/dvired.sh
-fmtutil -> /usr/share/texlive/texmf-dist/scripts/texlive/fmtutil.pl
-fmtutil-sys -> /usr/share/texlive/texmf-dist/scripts/texlive/fmtutil-sys.sh
-ht -> /usr/share/texlive/texmf-dist/scripts/tex4ht/ht.sh
-htcontext -> /usr/share/texlive/texmf-dist/scripts/tex4ht/htcontext.sh
-htlatex -> /usr/share/texlive/texmf-dist/scripts/tex4ht/htlatex.sh
-htmex -> /usr/share/texlive/texmf-dist/scripts/tex4ht/htmex.sh
-httex -> /usr/share/texlive/texmf-dist/scripts/tex4ht/httex.sh
-httexi -> /usr/share/texlive/texmf-dist/scripts/tex4ht/httexi.sh
-htxelatex -> /usr/share/texlive/texmf-dist/scripts/tex4ht/htxelatex.sh
-htxetex -> /usr/share/texlive/texmf-dist/scripts/tex4ht/htxetex.sh
-kpsetool -> /usr/share/texlive/texmf-dist/scripts/texlive/kpsetool.sh
-kpsewhere -> /usr/share/texlive/texmf-dist/scripts/texlive/kpsewhere.sh
-mk4ht -> /usr/share/texlive/texmf-dist/scripts/tex4ht/mk4ht.pl
-mptopdf -> /usr/share/texlive/texmf-dist/scripts/context/perl/mptopdf.pl
-pdfatfi -> /usr/share/texlive/texmf-dist/scripts/oberdiek/pdfatfi.pl
-simpdftex -> /usr/share/texlive/texmf-dist/scripts/simpdftex/simpdftex
-texdoc -> /usr/share/texlive/texmf-dist/scripts/texdoc/texdoc.tlu
-texdoctk -> /usr/share/texlive/texmf-dist/scripts/texdoctk/texdoctk.pl
-thumbpdf -> /usr/share/texlive/texmf-dist/scripts/thumbpdf/thumbpdf.pl
-tlmgr -> /usr/share/texlive/texmf-dist/scripts/texlive/tlmgr.pl
-updmap -> /usr/share/texlive/texmf-dist/scripts/texlive/updmap.pl
-updmap-sys -> /usr/share/texlive/texmf-dist/scripts/texlive/updmap-sys.sh
-```
-
-Os comandos abaixo são os mais utilizados:
-
-* tlmgr - Usado para gerenciar a distribuição de pacotes no TeX
-
-
-## Excutando o Contêiner Docker
-
-```bash
-docker run -v $PWD/work:/tex/data  -i -t parana/textlive bash
-``` 
-
-No contêiner execute:
-
-```bash
-do-latex artigo-1 ## Isto compila artigo-1.tex gerando /tex/data/out/artigo-1.pdf
-```
-Assim podemos visualizar no host assim: `open work/out/artigo-1.pdf`
-
-Coloque seus arquivos text em `work/in`. O resultado será movido para `work/out`
 
 ## Resolução de Problemas
 
